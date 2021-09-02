@@ -10,14 +10,13 @@
 @interface LNBaselistDataController ()
 
 @property(nonatomic, assign, readwrite) NSInteger currentPage;
-@property(nonatomic, assign, readwrite) NSInteger pageSize;
 @property(nonatomic, strong, readwrite) NSMutableArray *dataList;
 
 @end
 
 @implementation LNBaselistDataController
 
-@synthesize delegate = _delegate;
+@synthesize delegate = _delegate, pageSize = _pageSize;
 
 - (instancetype)init
 {
@@ -30,29 +29,9 @@
     return self;
 }
 
-- (void)setDelegate:(id<LNListDataResponseDelegate>)delegate
-{
-    _delegate = delegate;
-}
-
-- (id<LNListDataResponseDelegate>)delegate
-{
-    return _delegate;
-}
-
-
-- (void)loadData
-{
-    if (self.currentPage == 0) {
-        [self refreshData];
-    }else{
-        [self loadMoreData];
-    }
-}
-
-
 - (void)refreshData
 {
+    self.currentPage = 0;
     if (self.delegate && [self.delegate respondsToSelector:@selector(startRefresh:)]) {
         [self.delegate startRefresh:self];
     }
@@ -93,7 +72,7 @@
     
 }
 
-- (void)loadDataCancel
+- (void)stopLoadData
 {
     NSLog(@"取消请求");
 }

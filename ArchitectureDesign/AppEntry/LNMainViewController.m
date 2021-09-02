@@ -20,6 +20,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+//    dispatch_queue_t queue = dispatch_queue_create("com.djx.serial", DISPATCH_QUEUE_SERIAL);
+//    dispatch_queue_t queue = dispatch_queue_create("com.djx.serial", DISPATCH_QUEUE_CONCURRENT);
+//    for (int i = 0; i < 100; i++) {
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            dispatch_sync(queue, ^{
+//                if (i == 0) {
+//                    sleep(2);
+//                }
+//                if (i == 2) {
+//                    sleep(1);
+//                }
+//                if (i == 10) {
+//                    sleep(0.5);
+//                }
+//                NSLog(@"%@", @(i));
+//            });
+//        });;
+//    }
+//
+    
     LNHomeViewController *homeVc = [[LNHomeViewController alloc] init];
     homeVc.title = @"首页";
     [self addChildViewController:homeVc];

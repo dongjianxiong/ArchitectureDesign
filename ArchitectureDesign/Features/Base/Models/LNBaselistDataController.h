@@ -37,15 +37,17 @@ typedef void(^LNListRequestCompletion)(NSArray *dataList, NSError * _Nullable er
 
 @property(nonatomic, assign, readonly) NSInteger currentPage;
 
-@property(nonatomic, assign, readonly) NSInteger pageSize;
+@property(nonatomic, assign) NSInteger pageSize;
 
 @property(nonatomic, strong, readonly) NSMutableArray *dataList;
 
 @property(nonatomic, weak) id<LNListDataResponseDelegate> delegate;
 
-- (void)loadData;
+- (void)refreshData;
 
-- (void)loadDataCancel;
+- (void)loadMoreData;
+
+- (void)stopLoadData;
 
 - (void)removeObjectAtIndex:(NSInteger)index;
 
@@ -60,8 +62,6 @@ typedef void(^LNListRequestCompletion)(NSArray *dataList, NSError * _Nullable er
 
 
 @interface LNBaselistDataController : NSOperation<LNListDataOperationAdapter>
-
-
 
 @end
 

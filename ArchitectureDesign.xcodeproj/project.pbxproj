@@ -10,7 +10,6 @@
 		B36B4FA29263A51412005F5E /* Pods_ArchitectureDesignTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A5327C0B6D7A092789B87F /* Pods_ArchitectureDesignTests.framework */; };
 		B8F1ABC226DD156F00383244 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F1ABC126DD156F00383244 /* AppDelegate.m */; };
 		B8F1ABC526DD156F00383244 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F1ABC426DD156F00383244 /* SceneDelegate.m */; };
-		B8F1ABC826DD156F00383244 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F1ABC726DD156F00383244 /* ViewController.m */; };
 		B8F1ABCB26DD156F00383244 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8F1ABC926DD156F00383244 /* Main.storyboard */; };
 		B8F1ABCD26DD157000383244 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8F1ABCC26DD157000383244 /* Assets.xcassets */; };
 		B8F1ABD026DD157000383244 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8F1ABCE26DD157000383244 /* LaunchScreen.storyboard */; };
@@ -73,8 +72,6 @@
 		B8F1ABC126DD156F00383244 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B8F1ABC326DD156F00383244 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		B8F1ABC426DD156F00383244 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		B8F1ABC626DD156F00383244 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B8F1ABC726DD156F00383244 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B8F1ABCA26DD156F00383244 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B8F1ABCC26DD157000383244 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8F1ABCF26DD157000383244 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -185,6 +182,21 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B8C988C026DFB62500EA60EC /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				B8F1AC0C26DD209600383244 /* LNFeed.h */,
+				B8F1AC0D26DD209600383244 /* LNFeed.m */,
+				B8F1AC0F26DD20D700383244 /* LNUser.h */,
+				B8F1AC1026DD20D700383244 /* LNUser.m */,
+				B8F1AC2426DE552900383244 /* LNComment.h */,
+				B8F1AC2526DE552900383244 /* LNComment.m */,
+				B8F1AC2726DE56F200383244 /* LNTopic.h */,
+				B8F1AC2826DE56F200383244 /* LNTopic.m */,
+			);
+			path = DataModels;
+			sourceTree = "<group>";
+		};
 		B8F1ABB426DD156F00383244 = {
 			isa = PBXGroup;
 			children = (
@@ -216,11 +228,8 @@
 				B8F1AC3726DF253C00383244 /* Config */,
 				B8F1AC3626DF252B00383244 /* Categories */,
 				B8F1AC3526DF252000383244 /* Features */,
-				B8F1ABFE26DD161E00383244 /* ViewControllers */,
 				B8F1AC2A26DE570800383244 /* Data */,
 				B8F1AC2026DE4DFC00383244 /* Utilites */,
-				B8F1ABC626DD156F00383244 /* ViewController.h */,
-				B8F1ABC726DD156F00383244 /* ViewController.m */,
 				B8F1ABC926DD156F00383244 /* Main.storyboard */,
 				B8F1ABCC26DD157000383244 /* Assets.xcassets */,
 				B8F1ABCE26DD157000383244 /* LaunchScreen.storyboard */,
@@ -248,13 +257,6 @@
 			path = ArchitectureDesignUITests;
 			sourceTree = "<group>";
 		};
-		B8F1ABFE26DD161E00383244 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		B8F1AC2026DE4DFC00383244 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,14 +268,7 @@
 		B8F1AC2A26DE570800383244 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				B8F1AC0C26DD209600383244 /* LNFeed.h */,
-				B8F1AC0D26DD209600383244 /* LNFeed.m */,
-				B8F1AC0F26DD20D700383244 /* LNUser.h */,
-				B8F1AC1026DD20D700383244 /* LNUser.m */,
-				B8F1AC2426DE552900383244 /* LNComment.h */,
-				B8F1AC2526DE552900383244 /* LNComment.m */,
-				B8F1AC2726DE56F200383244 /* LNTopic.h */,
-				B8F1AC2826DE56F200383244 /* LNTopic.m */,
+				B8C988C026DFB62500EA60EC /* DataModels */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -735,7 +730,6 @@
 				B8F1AC0826DD16D700383244 /* LNHomeDataController.m in Sources */,
 				B8F1AC1426DD299000383244 /* LNFeedTableViewCell.m in Sources */,
 				B8F1AC0B26DD16F000383244 /* LNTimeLineDataController.m in Sources */,
-				B8F1ABC826DD156F00383244 /* ViewController.m in Sources */,
 				B8F1AC5226DF525700383244 /* NSString+Custom.m in Sources */,
 				B8F1AC2926DE56F200383244 /* LNTopic.m in Sources */,
 				B8F1AC1F26DE4BC200383244 /* LNFeedCellLayout.m in Sources */,

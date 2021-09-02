@@ -26,7 +26,7 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     LNFeedCellLayout *feedLayout = self.dataArray[indexPath.row];
-    LNFeedTableViewCell *cell;
+    LNFeedTableViewCell *cell = nil;
     if (feedLayout.feed.imageUrls.count > 0) {
         NSString *feedImageCellID = @"LNFeedImageTableViewCell";
         cell = [tableView dequeueReusableCellWithIdentifier:feedImageCellID];
@@ -47,8 +47,6 @@
         }
     }
     
-
-
     [cell reloadWithData:self.dataArray[indexPath.row]];
     return cell;
 }

@@ -10,7 +10,7 @@
 #import "LNUser.h"
 #import "LNCusomUIKitHelper.h"
 
-@interface LNFeedTableViewCell ()
+@interface LNFeedTableViewCell ()<UITextViewDelegate>
 
 @end
 
@@ -46,7 +46,6 @@
     infoFrame.origin.x = LNUIScreenWidth - 220;
     infoFrame.origin.y = _feedLayout.cellHeight - 50;
     self.infoView.frame = infoFrame;
-    
 }
 
 - (void)updateStyle
@@ -89,43 +88,79 @@
     return _userNameLabel;
 }
 
-- (UILabel *)contentLabel
+- (UITextView *)contentLabel
 {
     if (!_contentLabel) {
-        _contentLabel = [[UILabel alloc] init];
-        _contentLabel.numberOfLines = 0;
-        _contentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _contentLabel.font = UIFontProvider.systemFont14;
-        _contentLabel.textColor = [UIColor blackColor];
-        _contentLabel.backgroundColor = [UIColor yellowColor];
+        _contentLabel = [self commonTextView];
         [self.contentView addSubview:_contentLabel];
     }
     return _contentLabel;
 }
 
-- (UILabel *)forwardFeedLabel
+- (UITextView *)forwardFeedLabel
 {
     if (!_forwardFeedLabel) {
-        _forwardFeedLabel = [[UILabel alloc] init];
-        _forwardFeedLabel.numberOfLines = 0;
-        _forwardFeedLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        _forwardFeedLabel.font = UIFontProvider.systemFont14;
-        _forwardFeedLabel.textColor = [UIColor blackColor];
-        _forwardFeedLabel.backgroundColor = [UIColor yellowColor];
+        _forwardFeedLabel = [self commonTextView];
         [self.contentView addSubview:_forwardFeedLabel];
     }
     return _forwardFeedLabel;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+- (UITextView *)commonTextView
+{
+    UITextView *textView = [[UITextView alloc] init];
+    textView.delegate = self;
+    textView.scrollEnabled = NO;
+    textView.editable = NO;
+    textView.textContainerInset = UIEdgeInsetsZero;
+    textView.textContainer.lineFragmentPadding = 0;
+//        _forwardFeedLabel.textStorage
+//        _forwardFeedLabel.numberOfLines = 0;
+//        _forwardFeedLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    textView.font = UIFontProvider.systemFont14;
+    textView.textColor = [UIColor blackColor];
+    textView.backgroundColor = [UIColor yellowColor];
+    return textView;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+#pragma  mark - UITextViewDelegate
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    return true;
+}
 
-    // Configure the view for the selected state
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction
+{
+    if ([[URL scheme] isEqualToString:@"topic"]) {
+        NSString *topicId = [[URL absoluteString] substringFromIndex:8];
+        NSString *topicName = [textView.text substringWithRange:characterRange];
+        NSLog(@"topicName:%@", topicName);
+        [self clickOnTopic:topicId];
+        return NO;
+    }
+    else if ([[URL scheme] isEqualToString:@"user"]) {
+        NSString *userId = [[URL absoluteString] substringFromIndex:7];
+        NSString *userName = [textView.text substringWithRange:characterRange];
+        NSLog(@"userName:%@", userName);
+        [self clickOnUser:userId];
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction
+{
+    return YES;
+}
+
+- (void)clickOnTopic:(NSString *)topicId
+{
+    NSLog(@"topicId:%@", topicId);
+}
+
+- (void)clickOnUser:(NSString *)userId
+{
+    NSLog(@"userId:%@", userId);
 }
 
 @end

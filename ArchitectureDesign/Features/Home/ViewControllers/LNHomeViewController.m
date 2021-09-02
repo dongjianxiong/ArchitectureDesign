@@ -7,6 +7,7 @@
 
 #import "LNHomeViewController.h"
 #import "LNHomeDataController.h"
+//#import <>
 
 @interface LNHomeViewController ()<LNListDataResponseDelegate>
 
@@ -19,27 +20,11 @@
     [super viewDidLoad];
     
     self.dataController = [[LNHomeDataController alloc] init];
-    [self.dataController loadData];
-    
+    self.dataController.pageSize = 20;
+    [self startLoadData];
+//    self.ta
     // Do any additional setup after loading the view.
 }
-
-
-//- (void)dataController:(nonnull id<LNListDataOperationAdapter>)dataController changedObjectAtIndex:(NSInteger)index {
-//    
-//}
-//
-//- (void)dataController:(nonnull id<LNListDataOperationAdapter>)dataController deletedObjectAtIndex:(NSInteger)index {
-//
-//}
-//
-//- (void)loadMoreResponse:(nonnull id<LNListDataOperationAdapter>)dataController error:(nonnull NSError *)error {
-//    
-//}
-//
-//- (void)refreshResponse:(nonnull id<LNListDataOperationAdapter>)dataController error:(nonnull NSError *)error {
-//    
-//}
 
 
 @end

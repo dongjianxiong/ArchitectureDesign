@@ -7,6 +7,7 @@
 
 #import "LNBaseTableViewController.h"
 #import "LNCusomUIKitHelper.h"
+#import <MJRefresh/MJRefresh.h>
 
 @interface LNBaseTableViewController ()
 
@@ -28,11 +29,25 @@
     self.tableView.rowHeight = 200;
     [self.view addSubview:self.tableView];
     
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self.dataController refreshData];
+     }];
+    
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self.dataController loadMoreData];
+    }];
+    
     self.indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     self.indicatorView.center = CGPointMake(LNUIScreenWidth/2, LNUIScreenHeight/2);
     self.indicatorView.color = [UIColor grayColor];
     [self.view addSubview:self.indicatorView];
     // Do any additional setup after loading the view.
+}
+
+- (void)startLoadData
+{
+    //马上进入刷新状态
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -87,6 +102,7 @@
     [self.indicatorView stopAnimating];
     CFAbsoluteTime endTime = CFAbsoluteTimeGetCurrent();
     NSLog(@"加载时间：%@", @(endTime - self.loadingTime));
+    [self.tableView.mj_header endRefreshing];
 }
 
 - (void)loadMoreResponse:(id<LNListDataOperationAdapter>)dataController error:(NSError *)error
@@ -98,6 +114,7 @@
 
     }
     [self.indicatorView stopAnimating];
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)dataController:(nonnull id<LNListDataOperationAdapter>)dataController changedObjectAtIndex:(NSInteger)index {

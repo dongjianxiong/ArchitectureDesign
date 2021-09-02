@@ -44,7 +44,7 @@ CGFloat const LNFeedCellCententOffsetX = 20;
     CGSize contentSize = CGSizeMake(contentWidth, MAXFLOAT);
 
     // feed的文本高度
-    NSAttributedString *feedContent = [self attributeStrWithFeed:_feed];
+    NSAttributedString *feedContent = [self attributeStrWithFeed:_feed isForward:NO];
     CGRect feedContentRect = [feedContent boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  context:nil];
     _feedContent = [feedContent copy];
 
@@ -71,42 +71,78 @@ CGFloat const LNFeedCellCententOffsetX = 20;
     
     // 转发Feed文本高度
     if (_feed.originFeed) {
-        contentSize.width -= 5;
         
-        NSString *userName = [@"@" stringByAppendingFormat:@"%@ ",_feed.originFeed.creator.name];
-        NSDictionary *dict = @{NSFontAttributeName : UIFontProvider.systemFont15, NSForegroundColorAttributeName: [UIColor blueColor]};
-        NSMutableAttributedString *userNameAtt = [[NSMutableAttributedString alloc] initWithString:userName attributes:dict];
-        
-        NSMutableAttributedString *forwardFeedContent = [self attributeStrWithFeed:_feed.originFeed];
-        [userNameAtt appendAttributedString:forwardFeedContent];
-        forwardFeedContent = userNameAtt;
-        
-        if (_feed.originFeed.imageUrls.count == 0 && _feed.originFeed.videoUrl) {
-            NSMutableAttributedString *videoUrlAtt = [[NSMutableAttributedString alloc] initWithString:_feed.originFeed.videoUrl attributes:dict];
-            [forwardFeedContent appendAttributedString:videoUrlAtt];
-        }
+        CGSize contentSize = CGSizeMake(contentWidth - 5, MAXFLOAT);
+        NSMutableAttributedString *forwardFeedContent = [self attributeStrWithFeed:_feed.originFeed isForward:YES];
         CGRect forwardFeedContentRect = [forwardFeedContent boundingRectWithSize:contentSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  context:nil];
         CGFloat forwardFeedHeight = ceil(forwardFeedContentRect.size.height);
         self.forwordFeedFrame = CGRectMake(_forwardOffsetX, cellHeight, contentSize.width, forwardFeedHeight);
         cellHeight += forwardFeedHeight;
         _forwardFeedContent = [forwardFeedContent copy];
+        [self findAllLinkStrWithString:_forwardFeedContent.string];
     }
     self.cellHeight = cellHeight + 60;
 }
 
-- (NSMutableAttributedString *)attributeStrWithFeed:(LNFeed *)feed
+- (NSMutableAttributedString *)attributeStrWithFeed:(LNFeed *)feed isForward:(BOOL)isForward
 {
-    NSDictionary *dic = @{NSFontAttributeName : UIFontProvider.systemFont15};
-    NSMutableAttributedString *feedContent = [[NSMutableAttributedString alloc] initWithString:feed.content attributes:dic];
+    NSMutableAttributedString *contentAtt = [[NSMutableAttributedString alloc] init];
+    NSDictionary *commonDict = @{NSFontAttributeName : UIFontProvider.systemFont15};
+    NSDictionary *highLightdict = @{NSFontAttributeName : UIFontProvider.systemFont15, NSForegroundColorAttributeName: [UIColor blueColor]};
+    if (isForward) {
+        NSAttributedString *preStrAtt = [[NSAttributedString alloc] initWithString:@"转发自" attributes:commonDict];
+        [contentAtt appendAttributedString:preStrAtt];
+        NSString *userName = [@"@" stringByAppendingFormat:@"%@ ",feed.creator.name];
+        NSAttributedString *userNameAtt = [[NSAttributedString alloc] initWithString:userName attributes:commonDict];
+        [contentAtt appendAttributedString:userNameAtt];
+        [contentAtt addAttribute:NSLinkAttributeName value:[NSString stringWithFormat:@"user://%@",feed.creator.userId] range:[contentAtt.string rangeOfString:userName]];
     
-    NSDictionary *topicDict = @{NSFontAttributeName : UIFontProvider.systemFont15, NSForegroundColorAttributeName: [UIColor blueColor]};
-    NSString *topicsString = @"";
-    for (LNTopic *topic in _feed.topics) {
-        topicsString = [topicsString stringByAppendingFormat:@"#%@#", topic.name];
+        [contentAtt addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:[contentAtt.string rangeOfString:userName]];
     }
-    NSAttributedString *topicsAttributStr = [[NSAttributedString alloc] initWithString:topicsString attributes:topicDict];
-    [feedContent appendAttributedString:topicsAttributStr];
-    return feedContent;
+    NSAttributedString *feedContent = [[NSAttributedString alloc] initWithString:feed.content attributes:commonDict];
+    [contentAtt appendAttributedString:feedContent];
+
+    for (LNTopic *topic in feed.topics) {
+        NSString *topicName = [NSString stringWithFormat:@"#%@#", topic.name];
+        NSAttributedString *topicAtt = [[NSAttributedString alloc] initWithString:topicName attributes:highLightdict];
+        [contentAtt appendAttributedString:topicAtt];
+        [contentAtt addAttribute:NSLinkAttributeName value:[NSString stringWithFormat:@"topic://%@",topic.topicId] range:[contentAtt.string rangeOfString:topicName]];
+    }
+    if (isForward && feed.videoUrl) {
+        NSMutableAttributedString *videoUrlAtt = [[NSMutableAttributedString alloc] initWithString:feed.videoUrl attributes:highLightdict];
+        [contentAtt appendAttributedString:videoUrlAtt];
+        [contentAtt addAttribute:NSLinkAttributeName value:feed.videoUrl range:[contentAtt.string rangeOfString:videoUrlAtt.string]];
+    }
+
+    return contentAtt;
 }
+
+- (void)findAllLinkStrWithString:(NSString *)string
+{
+    for (NSString *regex in [self regexs]) {
+        NSError *error;
+        NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:&error];
+        if (!error) {
+            NSTextCheckingResult *match = [regular firstMatchInString:string options:0 range:NSMakeRange(0, [string length])];
+            if (match) {
+                NSString *result = [string substringWithRange:match.range];
+//                NSLog(@"%@",result);
+            }
+        }else{
+//            NSLog(@"error -- %@",error);
+        }
+    }
+}
+
+- (NSArray *)regexs
+{
+    return @[@"#.*?#",//话题##
+             @"http(s)?:\\/\\/([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&=]*)?",//url
+             @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",//邮箱
+             @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$",//电话
+             @"@.*?(?= ) "
+    ];
+}
+
 
 @end

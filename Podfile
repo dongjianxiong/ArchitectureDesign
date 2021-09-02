@@ -7,6 +7,7 @@ target 'ArchitectureDesign' do
   # pod 'LNFeed', :path => '../'
   pod 'AFNetworking'
   pod 'SDWebImage'
+  pod 'MJRefresh'
   target 'ArchitectureDesignTests' do
     inherit! :search_paths
 

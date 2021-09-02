@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) UILabel *userNameLabel;
 
-@property(nonatomic, strong) UILabel *contentLabel;
+@property(nonatomic, strong) UITextView *contentLabel;
 
 @property(nonatomic, strong) LNFeedInfoView *infoView;
 
-@property(nonatomic, strong) UILabel *forwardFeedLabel;
+@property(nonatomic, strong) UITextView *forwardFeedLabel;
 
 - (void)reloadWithData:(LNFeedCellLayout *)feedLayout;
 
