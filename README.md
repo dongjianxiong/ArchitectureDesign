@@ -1,2 +1,2 @@
 # ArchitectureDesign
-架构设计、性能优化联系demo
+架构设计、组件化设计demo
