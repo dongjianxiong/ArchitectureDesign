@@ -1,0 +1,6 @@
+framework module LNLiveModule {
+  umbrella header "LNLiveModule-umbrella.h"
+
+  export *
+  module * { export * }
+}

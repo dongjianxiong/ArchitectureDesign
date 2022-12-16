@@ -1,5 +1,5 @@
 //
-//  LNBaselistDataController.h
+//  LNBaselistDataProvider.h
 //  ArchitectureDesign
 //
 //  Created by Lenny on 2021/8/30.
@@ -14,20 +14,20 @@ typedef void(^LNListRequestCompletion)(NSArray *dataList, NSError * _Nullable er
 @protocol LNListDataOperationAdapter;
 @protocol LNListDataResponseDelegate <NSObject>
 
-- (void)startRefresh:(id<LNListDataOperationAdapter>)dataController;
+- (void)startRefresh:(id<LNListDataOperationAdapter>)dataProvider;
 
-- (void)startLoadMore:(id<LNListDataOperationAdapter>)dataController;
+- (void)startLoadMore:(id<LNListDataOperationAdapter>)dataProvider;
 
-- (void)refreshResponse:(id<LNListDataOperationAdapter>)dataController
+- (void)refreshResponse:(id<LNListDataOperationAdapter>)dataProvider
                   error:(NSError *)error;
 
-- (void)loadMoreResponse:(id<LNListDataOperationAdapter>)dataController
+- (void)loadMoreResponse:(id<LNListDataOperationAdapter>)dataProvider
                    error:(NSError *)error;
 
-- (void)dataController:(id<LNListDataOperationAdapter>)dataController
+- (void)dataProvider:(id<LNListDataOperationAdapter>)dataProvider
   changedObjectAtIndex:(NSInteger)index;
 
-- (void)dataController:(id<LNListDataOperationAdapter>)dataController
+- (void)dataProvider:(id<LNListDataOperationAdapter>)dataProvider
   deletedObjectAtIndex:(NSInteger)index;
 
 @end
@@ -61,7 +61,7 @@ typedef void(^LNListRequestCompletion)(NSArray *dataList, NSError * _Nullable er
 
 
 
-@interface LNBaselistDataController : NSOperation<LNListDataOperationAdapter>
+@interface LNBaselistDataProvider : NSOperation<LNListDataOperationAdapter>
 
 @end
 

@@ -1,0 +1,6 @@
+framework module LNUserCenterModule {
+  umbrella header "LNUserCenterModule-umbrella.h"
+
+  export *
+  module * { export * }
+}

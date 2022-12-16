@@ -7,7 +7,40 @@
 		<key>ArchitectureDesign.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>10</integer>
+		</dict>
+		<key>ArchitectureDesignBate.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>ArchitectureDesignDebug.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>B8C98B9026E8686100EA60EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B8F1ABBC26DD156F00383244</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B8F1ABD726DD157000383244</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B8F1ABE226DD157000383244</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

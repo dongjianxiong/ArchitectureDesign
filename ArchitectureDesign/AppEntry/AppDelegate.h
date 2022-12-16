@@ -6,8 +6,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <LNModuleCore/LNModuleCore.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : LNModuleAppDelegate <UIApplicationDelegate>
 
 
 @end

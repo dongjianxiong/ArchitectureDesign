@@ -1,0 +1,29 @@
+//
+//  Config-RunCMD.xcconfig
+//  ArchitectureDesign
+//
+//  Created by Lenny on 2021/9/8.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+
+
+//${TTY}
+///bin/sh "$SRCROOT/xcode_run_cmd.sh"
+// $SRCROOT 项目根目录
+// xcode_run_cmd.sh shell脚本
+// 文件路径
+//MACH_PATH=${BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/*
+MACH_PATH=${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/ArchitectureDesign.app/ArchitectureDesign
+
+// 运行的命令
+CMD = nm //objdump //nm
+// 运行的命令的参数
+CMD_FLAG = -pa ${MACH_PATH}
+// 输出TTY终端
+TTY=xcode_run_log.txt// /dev/ttys001//xcode_run_log.txt
+
+OTHER_LDFLAGS = $(inherited) -framework "AFNetworking"
+

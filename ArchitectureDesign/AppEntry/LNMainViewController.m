@@ -6,10 +6,11 @@
 //
 
 #import "LNMainViewController.h"
-#import "LNHomeViewController.h"
-#import "LNTimeLineViewController.h"
 #import "LNMineViewController.h"
+#import "LNUIKitHelper.h"
 
+#import <LNModuleProtocol/LNModuleProtocol.h>
+#import <LNCommonKit/LNBaseMVC.h>
 
 @interface LNMainViewController ()
 
@@ -20,38 +21,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIColor *backgroundColor = LNThemeBackgroundColor;
+    UIColor *foregroundColor = LNThemeForegroundColor;
     
-//    dispatch_queue_t queue = dispatch_queue_create("com.djx.serial", DISPATCH_QUEUE_SERIAL);
-//    dispatch_queue_t queue = dispatch_queue_create("com.djx.serial", DISPATCH_QUEUE_CONCURRENT);
-//    for (int i = 0; i < 100; i++) {
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            dispatch_sync(queue, ^{
-//                if (i == 0) {
-//                    sleep(2);
-//                }
-//                if (i == 2) {
-//                    sleep(1);
-//                }
-//                if (i == 10) {
-//                    sleep(0.5);
-//                }
-//                NSLog(@"%@", @(i));
-//            });
-//        });;
-//    }
-//
-    
-    LNHomeViewController *homeVc = [[LNHomeViewController alloc] init];
+    self.tabBar.barTintColor = backgroundColor;
+    self.tabBar.tintColor = foregroundColor;
+    NSArray *titlesArr = @[@"首页",  @"直播", @"视频", @"我的"];
+    NSArray *imagesArr = @[@"tabbar_home", @"tabbar_discovery", @"tabbar_follow", @"tabbar_usercenter"];
+    UIViewController *vc = [LNAppModuleManger.feedModule getMainFeedViewController];
+    LNBaseNavigationController *homeVc = [[LNBaseNavigationController alloc] initWithRootViewController:vc];
     homeVc.title = @"首页";
-    [self addChildViewController:homeVc];
     
-    LNTimeLineViewController *timeLineVc = [[LNTimeLineViewController alloc] init];
-    timeLineVc.title = @"最新";
-    [self addChildViewController:timeLineVc];
+    UIViewController *vc2 = [LNAppModuleManger.liveModule getRecommendListViewController];
+    LNBaseNavigationController *liveVc = [[LNBaseNavigationController alloc] initWithRootViewController:vc2];
+    liveVc.title = @"直播";
     
-    LNMineViewController *mineVc = [[LNMineViewController alloc] init];
-    mineVc.title = @"我的";
-    [self addChildViewController:mineVc];
+    UIViewController *vc3 = [LNAppModuleManger.videoModule getRecommendTableViewController];
+    LNBaseNavigationController *videoVc = [[LNBaseNavigationController alloc] initWithRootViewController:vc3];
+    videoVc.title = @"视频";
+    
+    UIViewController *vc4 = [LNAppModuleManger.userCenterModule getMineViewController];
+    LNBaseNavigationController *userCenterVc = [[LNBaseNavigationController alloc] initWithRootViewController:vc4];
+    userCenterVc.title = @"我的";
+    
+    self.viewControllers = @[homeVc, liveVc, videoVc, userCenterVc];
+//
+    for (int index = 0; index < self.viewControllers.count; index++) {
+        LNBaseNavigationController *vc = self.viewControllers[index];
+        vc.tabBarItem.title = titlesArr[index];
+        vc.tabBarItem.image = [UIImage imageNamed:imagesArr[index]];
+
+        vc.navigationBar.barTintColor = backgroundColor;
+        vc.navigationBar.tintColor = foregroundColor;
+        vc.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: foregroundColor};
+    }
+    
     // Do any additional setup after loading the view.
 }
 

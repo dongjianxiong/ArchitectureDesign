@@ -1,0 +1,17 @@
+//
+//  ArchitectureDesign-PrefixHeader.pch
+//  ArchitectureDesign
+//
+//  Created by Lenny on 2021/9/4.
+//
+
+#ifndef ArchitectureDesign_PrefixHeader_pch
+#define ArchitectureDesign_PrefixHeader_pch
+
+
+#import "LNCustomFoundationKit.h"
+#import "LNUIKitHelper.h"
+#import "LNAppModuleManger.h"
+
+
+#endif /* ArchitectureDesign_PrefixHeader_pch */

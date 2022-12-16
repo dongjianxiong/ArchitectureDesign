@@ -6,6 +6,9 @@
 //
 
 #import "AppDelegate.h"
+#import <LNCommonKit/LNBaseMVC.h>
+#import "LNMainViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -15,26 +18,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+    NSDictionary *info = [[NSDictionary alloc] initWithContentsOfFile:path];
+    
+    LNMainViewController *mainVc = [[LNMainViewController alloc] init];
+    LNBaseNavigationController *rootVc = [[LNBaseNavigationController alloc] initWithRootViewController:mainVc];
+    self.window.rootViewController = rootVc;
+    
+//    NSString *hostUrl = info[@"HOST_URL"];
     // Override point for customization after application launch.
     return YES;
 }
-
-
-#pragma mark - UISceneSession lifecycle
-
-
-- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
-}
-
-
-- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-}
-
 
 @end

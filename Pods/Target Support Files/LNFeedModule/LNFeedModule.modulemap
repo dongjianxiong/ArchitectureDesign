@@ -1,0 +1,6 @@
+framework module LNFeedModule {
+  umbrella header "LNFeedModule-umbrella.h"
+
+  export *
+  module * { export * }
+}
